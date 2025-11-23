@@ -1,0 +1,172 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Lista de Tareas
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="showAddTaskModal()" fill="clear">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Mis Tareas</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Quick Add Button (Floating) -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="showAddTaskModal()" color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Formulario compacto para agregar nueva tarea -->
+  <ion-card *ngIf="showAddForm" class="add-task-card">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="add-circle" slot="start"></ion-icon>
+        Nueva Tarea
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-input 
+          label="Título" 
+          labelPlacement="stacked" 
+          placeholder="¿Qué necesitas hacer?"
+          [(ngModel)]="newTask.title"
+          class="task-input"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-textarea 
+          label="Descripción (opcional)" 
+          labelPlacement="stacked" 
+          placeholder="Agrega más detalles..."
+          [(ngModel)]="newTask.description"
+          rows="2"
+          class="task-input"
+        ></ion-textarea>
+      </ion-item>
+      
+      <div class="action-buttons">
+        <ion-button 
+          expand="block" 
+          (click)="addTask()"
+          [disabled]="!newTask.title"
+          shape="round"
+          class="save-button"
+        >
+          <ion-icon name="checkmark" slot="start"></ion-icon>
+          Agregar Tarea
+        </ion-button>
+        
+        <ion-button 
+          expand="block" 
+          fill="clear"
+          (click)="cancelAdd()"
+          class="cancel-button"
+        >
+          Cancelar
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Progress indicator -->
+  <ion-card class="progress-card" *ngIf="tasks.length > 0">
+    <ion-card-content>
+      <div class="progress-info">
+        <h3>Progreso del día</h3>
+        <p>{{completedTasksCount}} de {{tasks.length}} completadas</p>
+      </div>
+      <ion-progress-bar 
+        [value]="progressPercentage"
+        color="success"
+        class="progress-bar"
+      ></ion-progress-bar>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de tareas con diseño móvil -->
+  <div class="tasks-container">
+    <ion-list *ngIf="tasks.length > 0">
+      <ion-item-sliding 
+        *ngFor="let task of tasks; let i = index"
+        class="task-item-sliding"
+      >
+        <ion-item class="task-item" [class.completed]="task.completed">
+          <ion-checkbox 
+            [(ngModel)]="task.completed"
+            (ionChange)="toggleTask(i)"
+            slot="start"
+            class="task-checkbox"
+          ></ion-checkbox>
+          
+          <ion-label class="task-label">
+            <h2 [class.task-completed]="task.completed">{{task.title}}</h2>
+            <p *ngIf="task.description" [class.task-completed]="task.completed">
+              {{task.description}}
+            </p>
+            <p class="task-date">
+              <ion-icon name="time-outline" size="small"></ion-icon>
+              {{task.createdAt | date:'short'}}
+            </p>
+          </ion-label>
+          
+          <ion-button 
+            fill="clear" 
+            (click)="deleteTask(i)"
+            color="danger"
+            slot="end"
+            class="delete-button"
+          >
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-item>
+        
+        <ion-item-options side="end">
+          <ion-item-option 
+            color="primary" 
+            (click)="editTask(i)"
+            expandable
+          >
+            <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+          
+          <ion-item-option 
+            color="danger" 
+            (click)="deleteTaskWithConfirm(i)"
+            expandable
+          >
+            <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <!-- Estado vacío mejorado -->
+    <div *ngIf="tasks.length === 0" class="empty-state">
+      <div class="empty-icon">
+        <ion-icon name="checkmark-circle-outline" size="large"></ion-icon>
+      </div>
+      <h2>¡Todo listo!</h2>
+      <p>No tienes tareas pendientes.<br>Toca el botón + para agregar una nueva.</p>
+      <ion-button 
+        expand="block" 
+        fill="outline"
+        (click)="showAddTaskModal()"
+        shape="round"
+        class="empty-action-button"
+      >
+        <ion-icon name="add" slot="start"></ion-icon>
+        Agregar Primera Tarea
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

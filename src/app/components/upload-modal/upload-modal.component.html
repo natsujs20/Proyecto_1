@@ -1,0 +1,200 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Crear Publicación</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Selector de tipo de contenido -->
+  <div class="content-type-selector">
+    <ion-segment [(ngModel)]="selectedType" (ionChange)="onTypeChange()">
+      <ion-segment-button value="meme">
+        <ion-icon name="happy"></ion-icon>
+        <ion-label>Meme</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="photo">
+        <ion-icon name="camera"></ion-icon>
+        <ion-label>Foto</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="video">
+        <ion-icon name="videocam"></ion-icon>
+        <ion-label>Video</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="task">
+        <ion-icon name="checkbox"></ion-icon>
+        <ion-label>Tarea</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Área de previsualización de media -->
+  <div class="media-preview" *ngIf="selectedFile || previewUrl">
+    <div class="preview-container">
+      <img *ngIf="selectedFile && isImage" [src]="previewUrl" alt="Preview" />
+      <video *ngIf="selectedFile && isVideo" [src]="previewUrl" controls></video>
+      <div class="file-info" *ngIf="selectedFile">
+        <p><strong>{{selectedFile.name}}</strong></p>
+        <p>{{getFileSize(selectedFile.size)}}</p>
+      </div>
+      <ion-button 
+        fill="clear" 
+        color="danger" 
+        (click)="removeFile()"
+        class="remove-file-btn"
+      >
+        <ion-icon name="trash" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Botones de carga -->
+  <div class="upload-actions" *ngIf="!selectedFile">
+    <ion-card class="upload-card">
+      <ion-card-content>
+        <div class="upload-options">
+          <!-- Subir desde galería -->
+          <div class="upload-option" (click)="openGallery()">
+            <ion-icon name="images" size="large"></ion-icon>
+            <h3>Galería</h3>
+            <p>Selecciona desde tu galería</p>
+          </div>
+          
+          <!-- Tomar foto/video -->
+          <div class="upload-option" (click)="openCamera()">
+            <ion-icon name="camera" size="large"></ion-icon>
+            <h3>Cámara</h3>
+            <p>Toma una foto o video</p>
+          </div>
+          
+          <!-- Subir archivo -->
+          <div class="upload-option" (click)="selectFile()">
+            <ion-icon name="cloud-upload" size="large"></ion-icon>
+            <h3>Subir archivo</h3>
+            <p>Selecciona un archivo</p>
+          </div>
+        </div>
+        
+        <!-- Input oculto para archivos -->
+        <input 
+          #fileInput 
+          type="file" 
+          accept="image/*,video/*" 
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Área de texto y configuraciones -->
+  <div class="content-form">
+    <!-- Descripción/Caption -->
+    <ion-item>
+      <ion-textarea
+        label="Descripción"
+        labelPlacement="stacked"
+        placeholder="Escribe una descripción divertida..."
+        [(ngModel)]="postData.description"
+        rows="4"
+        maxlength="500"
+        counter="true"
+      ></ion-textarea>
+    </ion-item>
+
+    <!-- Hashtags sugeridos -->
+    <div class="hashtags-section" *ngIf="selectedType === 'meme'">
+      <h4>Hashtags populares:</h4>
+      <div class="hashtag-chips">
+        <ion-chip 
+          *ngFor="let tag of suggestedHashtags" 
+          (click)="addHashtag(tag)"
+          [color]="postData.description.includes(tag) ? 'primary' : 'medium'"
+        >
+          <ion-label>{{tag}}</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+
+    <!-- Configuraciones especiales para tareas -->
+    <div *ngIf="selectedType === 'task'" class="task-specific">
+      <ion-item>
+        <ion-input
+          label="Título de la tarea"
+          labelPlacement="stacked"
+          placeholder="¿Qué completaste?"
+          [(ngModel)]="postData.taskTitle"
+        ></ion-input>
+      </ion-item>
+      
+      <ion-item>
+        <ion-checkbox [(ngModel)]="postData.taskCompleted"></ion-checkbox>
+        <ion-label class="ion-margin-start">Tarea completada</ion-label>
+      </ion-item>
+    </div>
+
+    <!-- Configuraciones de privacidad -->
+    <ion-card class="privacy-settings">
+      <ion-card-header>
+        <ion-card-title>Configuraciones</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-select 
+            label="Privacidad" 
+            [(ngModel)]="postData.privacy"
+            interface="action-sheet"
+          >
+            <ion-select-option value="public">
+              <ion-icon name="globe" slot="start"></ion-icon>
+              Público
+            </ion-select-option>
+            <ion-select-option value="friends">
+              <ion-icon name="people" slot="start"></ion-icon>
+              Solo amigos
+            </ion-select-option>
+            <ion-select-option value="private">
+              <ion-icon name="lock-closed" slot="start"></ion-icon>
+              Solo yo
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        
+        <ion-item>
+          <ion-checkbox [(ngModel)]="postData.allowComments"></ion-checkbox>
+          <ion-label class="ion-margin-start">Permitir comentarios</ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-checkbox [(ngModel)]="postData.allowSharing"></ion-checkbox>
+          <ion-label class="ion-margin-start">Permitir compartir</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Botón de publicar -->
+  <div class="publish-section">
+    <ion-button 
+      expand="block" 
+      size="large"
+      (click)="publishPost()"
+      [disabled]="!canPublish()"
+      class="publish-btn"
+    >
+      <ion-icon name="send" slot="start"></ion-icon>
+      {{isUploading ? 'Publicando...' : 'Publicar'}}
+    </ion-button>
+    
+    <!-- Barra de progreso de subida -->
+    <ion-progress-bar 
+      *ngIf="isUploading" 
+      [value]="uploadProgress"
+      color="primary"
+    ></ion-progress-bar>
+  </div>
+</ion-content>

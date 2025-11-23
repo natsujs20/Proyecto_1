@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Memes
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Galería de Memes</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Botones de control -->
+  <ion-segment 
+    [(ngModel)]="selectedCategory" 
+    (ionChange)="onCategoryChange()"
+    style="margin: 1rem;"
+  >
+    <ion-segment-button value="random">
+      <ion-label>Random</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="programming">
+      <ion-label>Programación</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="favorites">
+      <ion-label>Favoritos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Loading spinner -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando memes...</p>
+  </div>
+
+  <!-- Lista de memes -->
+  <div *ngIf="!loading">
+    <!-- Botón para cargar nuevo meme -->
+    <ion-button 
+      *ngIf="selectedCategory !== 'favorites'"
+      expand="block" 
+      fill="outline" 
+      (click)="loadRandomMeme()"
+      style="margin: 1rem;"
+    >
+      <ion-icon name="refresh" slot="start"></ion-icon>
+      Cargar Nuevo Meme
+    </ion-button>
+
+    <!-- Memes cards -->
+    <ion-card *ngFor="let meme of memes; let i = index" class="meme-card">
+      <img [src]="meme.url" [alt]="meme.title" (load)="onImageLoad()" />
+      <ion-card-header>
+        <ion-card-title>{{meme.title}}</ion-card-title>
+        <ion-card-subtitle>{{meme.author || 'Autor desconocido'}}</ion-card-subtitle>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <ion-button 
+          fill="clear" 
+          (click)="toggleFavorite(meme)"
+          [color]="meme.isFavorite ? 'danger' : 'medium'"
+        >
+          <ion-icon 
+            [name]="meme.isFavorite ? 'heart' : 'heart-outline'" 
+            slot="start"
+          ></ion-icon>
+          {{meme.isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}}
+        </ion-button>
+        
+        <ion-button 
+          fill="clear" 
+          (click)="shareMeme(meme)"
+          color="primary"
+        >
+          <ion-icon name="share-social" slot="start"></ion-icon>
+          Compartir
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Mensaje cuando no hay favoritos -->
+    <div *ngIf="selectedCategory === 'favorites' && memes.length === 0" class="no-favorites">
+      <ion-icon name="heart-outline" size="large"></ion-icon>
+      <h2>No tienes memes favoritos</h2>
+      <p>¡Agrega algunos memes a favoritos desde la sección Random o Programación!</p>
+    </div>
+
+    <!-- Mensaje cuando no hay memes -->
+    <div *ngIf="selectedCategory !== 'favorites' && memes.length === 0 && !loading" class="no-memes">
+      <ion-icon name="sad-outline" size="large"></ion-icon>
+      <h2>No hay memes disponibles</h2>
+      <p>Toca el botón "Cargar Nuevo Meme" para obtener contenido.</p>
+    </div>
+  </div>
+</ion-content>

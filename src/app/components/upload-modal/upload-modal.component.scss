@@ -1,0 +1,354 @@
+/* Upload Modal Styles - Instagram/TikTok inspired */
+
+.content-type-selector {
+  padding: 1rem;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  
+  ion-segment {
+    --background: #f0f2f5;
+    border-radius: 12px;
+    
+    ion-segment-button {
+      --color: var(--ion-color-medium);
+      --color-checked: var(--ion-color-primary);
+      --background-checked: white;
+      --border-radius: 8px;
+      margin: 2px;
+      font-weight: 500;
+      
+      ion-icon {
+        margin-bottom: 0.25rem;
+      }
+      
+      ion-label {
+        font-size: 0.8rem;
+        text-transform: none;
+      }
+    }
+  }
+}
+
+/* Media Preview Section */
+.media-preview {
+  padding: 1rem;
+  
+  .preview-container {
+    position: relative;
+    background: #f8f9fa;
+    border-radius: 16px;
+    overflow: hidden;
+    
+    img, video {
+      width: 100%;
+      max-height: 400px;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .file-info {
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      
+      p {
+        margin: 0;
+        font-size: 0.9rem;
+        
+        &:first-child {
+          font-weight: 600;
+        }
+      }
+    }
+    
+    .remove-file-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      --background: rgba(255, 255, 255, 0.9);
+      --color: var(--ion-color-danger);
+      --border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
+
+/* Upload Actions */
+.upload-actions {
+  padding: 1rem;
+  
+  .upload-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    
+    .upload-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      
+      .upload-option {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 1.5rem 1rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 2px dashed #e0e0e0;
+        
+        &:hover {
+          background: var(--ion-color-primary-tint);
+          border-color: var(--ion-color-primary);
+          transform: translateY(-2px);
+        }
+        
+        ion-icon {
+          color: var(--ion-color-primary);
+          margin-bottom: 0.5rem;
+        }
+        
+        h3 {
+          margin: 0 0 0.25rem 0;
+          font-size: 1rem;
+          font-weight: 600;
+          color: var(--ion-color-dark);
+        }
+        
+        p {
+          margin: 0;
+          font-size: 0.8rem;
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+  }
+}
+
+/* Content Form */
+.content-form {
+  padding: 1rem;
+  
+  ion-item {
+    --background: #f8f9fa;
+    --border-radius: 12px;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+  }
+  
+  ion-textarea {
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+  }
+}
+
+/* Hashtags Section */
+.hashtags-section {
+  margin: 1rem 0;
+  
+  h4 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+  }
+  
+  .hashtag-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    
+    ion-chip {
+      --background: #e3f2fd;
+      --color: var(--ion-color-primary);
+      border: 1px solid var(--ion-color-primary-tint);
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        transform: scale(1.05);
+      }
+      
+      &[color="primary"] {
+        --background: var(--ion-color-primary);
+        --color: white;
+      }
+      
+      ion-label {
+        font-weight: 500;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+/* Task Specific */
+.task-specific {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid var(--ion-color-success);
+  
+  ion-item {
+    --background: white;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Privacy Settings */
+.privacy-settings {
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+  ion-card-title {
+    color: var(--ion-color-primary);
+    font-size: 1.1rem;
+  }
+  
+  ion-item {
+    --background: transparent;
+    margin-bottom: 0;
+  }
+  
+  ion-select {
+    --placeholder-color: var(--ion-color-medium);
+  }
+}
+
+/* Publish Section */
+.publish-section {
+  padding: 1rem;
+  background: white;
+  border-top: 1px solid #e0e0e0;
+  position: sticky;
+  bottom: 0;
+  
+  .publish-btn {
+    --border-radius: 25px;
+    --box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.4);
+    height: 50px;
+    font-weight: 600;
+    text-transform: none;
+    margin-bottom: 0.5rem;
+    
+    &[disabled] {
+      --opacity: 0.5;
+      --box-shadow: none;
+    }
+  }
+  
+  ion-progress-bar {
+    border-radius: 4px;
+    height: 6px;
+    margin-top: 0.5rem;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .upload-options {
+    grid-template-columns: 1fr;
+    
+    .upload-option {
+      padding: 1rem;
+    }
+  }
+  
+  .hashtag-chips {
+    gap: 0.25rem;
+    
+    ion-chip {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+@media (max-height: 700px) {
+  .media-preview .preview-container img,
+  .media-preview .preview-container video {
+    max-height: 250px;
+  }
+}
+
+/* Dark Mode Support */
+.ios body.dark,
+.md body.dark {
+  .content-type-selector {
+    background: #1a1a1a;
+    border-color: #333;
+  }
+  
+  .upload-option {
+    background: #2a2a2a !important;
+    border-color: #444 !important;
+    
+    &:hover {
+      background: #333 !important;
+    }
+  }
+  
+  .task-specific {
+    background: #2a2a2a !important;
+  }
+  
+  .publish-section {
+    background: #1a1a1a;
+    border-color: #333;
+  }
+  
+  .hashtag-chips ion-chip {
+    --background: #333;
+    border-color: #555;
+  }
+}
+
+/* Animations */
+.upload-option {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+.hashtag-chips ion-chip {
+  animation: bounceIn 0.4s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Custom styling for file input */
+input[type="file"] {
+  display: none;
+}

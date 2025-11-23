@@ -1,0 +1,82 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="category-header">
+        <ion-icon name="apps-outline" style="margin-right: 8px; color: #6366f1;"></ion-icon>
+        #TodosLosMemes
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Category Banner -->
+  <div class="category-banner">
+    <div class="banner-content">
+      <ion-icon name="apps-outline" class="category-icon"></ion-icon>
+      <h1>Todos Los Memes</h1>
+      <p>El mejor contenido de todas las categorías 🎉</p>
+      <div class="stats">
+        <span>{{posts.length}} posts</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts Feed -->
+  <div class="posts-container">
+    <ion-card *ngFor="let post of posts" class="post-card">
+      <!-- Post Header -->
+      <div class="post-header">
+        <ion-avatar>
+          <img [src]="post.userAvatar" [alt]="post.userName">
+        </ion-avatar>
+        <div class="user-info">
+          <h3>{{post.userName}}</h3>
+          <p>{{post.createdAt | date:'short'}}</p>
+        </div>
+        <ion-chip color="primary" class="category-chip">
+          <ion-icon name="apps-outline"></ion-icon>
+          <ion-label>TodosLosMemes</ion-label>
+        </ion-chip>
+      </div>
+
+      <!-- Post Content -->
+      <div class="post-content">
+        <p>{{post.text}}</p>
+        <img [src]="post.memeUrl" [alt]="post.text">
+      </div>
+
+      <!-- Post Actions -->
+      <div class="post-actions">
+        <ion-button 
+          fill="clear" 
+          [color]="post.liked ? 'danger' : 'medium'"
+          (click)="toggleLike(post)"
+        >
+          <ion-icon [name]="post.liked ? 'heart' : 'heart-outline'" slot="start"></ion-icon>
+          {{post.likes}}
+        </ion-button>
+        <ion-button fill="clear" color="medium">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+          {{post.comments}}
+        </ion-button>
+        <ion-button fill="clear" color="medium">
+          <ion-icon name="share-outline" slot="start"></ion-icon>
+          Compartir
+        </ion-button>
+      </div>
+    </ion-card>
+  </div>
+
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="primary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "meme-todo-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

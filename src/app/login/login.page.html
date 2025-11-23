@@ -1,0 +1,85 @@
+<ion-content class="login-content">
+  <div class="login-container">
+    <!-- Logo y título de la app -->
+    <div class="app-header">
+      <ion-icon name="happy" size="large" class="app-logo"></ion-icon>
+      <h1>Meme ToDo</h1>
+      <p>Productividad con diversión</p>
+    </div>
+
+    <!-- Formulario de login -->
+    <ion-card class="login-card">
+      <ion-card-content>
+        <ion-item lines="none" class="login-item">
+          <ion-input 
+            label="Email" 
+            labelPlacement="floating" 
+            placeholder="tu@email.com"
+            type="email"
+            [(ngModel)]="loginData.email"
+            class="login-input"
+          ></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="login-item">
+          <ion-input 
+            label="Contraseña" 
+            labelPlacement="floating" 
+            placeholder="••••••••"
+            type="password"
+            [(ngModel)]="loginData.password"
+            class="login-input"
+          ></ion-input>
+        </ion-item>
+
+        <ion-button 
+          expand="block" 
+          shape="round" 
+          size="large"
+          (click)="login()"
+          [disabled]="!isFormValid()"
+          class="login-button"
+        >
+          <ion-icon name="log-in" slot="start"></ion-icon>
+          Iniciar Sesión
+        </ion-button>
+
+        <ion-button 
+          expand="block" 
+          fill="clear" 
+          size="small"
+          (click)="loginAsGuest()"
+          class="guest-button"
+        >
+          Continuar como invitado
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Opciones adicionales -->
+    <div class="login-options">
+      <ion-button fill="clear" size="small" (click)="showRegister()">
+        ¿No tienes cuenta? Regístrate
+      </ion-button>
+      
+      <ion-button fill="clear" size="small" (click)="forgotPassword()">
+        ¿Olvidaste tu contraseña?
+      </ion-button>
+    </div>
+
+    <!-- Social login buttons -->
+    <div class="social-login">
+      <h3>O continúa con:</h3>
+      <div class="social-buttons">
+        <ion-button fill="outline" shape="round" (click)="loginWithGoogle()">
+          <ion-icon name="logo-google" slot="start"></ion-icon>
+          Google
+        </ion-button>
+        <ion-button fill="outline" shape="round" (click)="loginWithFacebook()">
+          <ion-icon name="logo-facebook" slot="start"></ion-icon>
+          Facebook
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

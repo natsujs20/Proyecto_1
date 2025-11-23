@@ -1,0 +1,145 @@
+.login-content {
+  --background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.app-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: white;
+  
+  .app-logo {
+    color: white;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  }
+  
+  p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin: 0;
+  }
+}
+
+.login-card {
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  margin-bottom: 1rem;
+  
+  ion-card-content {
+    padding: 2rem 1.5rem;
+  }
+}
+
+.login-item {
+  --background: #f8f9fa;
+  --border-radius: 12px;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+}
+
+.login-input {
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+}
+
+.login-button {
+  --border-radius: 25px;
+  --box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.4);
+  margin: 1.5rem 0 1rem;
+  height: 50px;
+  font-weight: 600;
+  text-transform: none;
+}
+
+.guest-button {
+  --color: var(--ion-color-medium);
+  text-transform: none;
+  margin-bottom: 1rem;
+}
+
+.login-options {
+  text-align: center;
+  margin-bottom: 2rem;
+  
+  ion-button {
+    --color: rgba(255,255,255,0.8);
+    text-transform: none;
+    font-size: 0.9rem;
+    margin: 0.25rem 0;
+  }
+}
+
+.social-login {
+  text-align: center;
+  
+  h3 {
+    color: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+  
+  .social-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    
+    ion-button {
+      --border-color: rgba(255,255,255,0.3);
+      --color: white;
+      --background: rgba(255,255,255,0.1);
+      text-transform: none;
+      flex: 1;
+      max-width: 140px;
+      height: 44px;
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-height: 700px) {
+  .login-container {
+    justify-content: flex-start;
+    padding-top: 2rem;
+  }
+  
+  .app-header {
+    margin-bottom: 1.5rem;
+    
+    .app-logo {
+      font-size: 3rem;
+    }
+    
+    h1 {
+      font-size: 2rem;
+    }
+  }
+}
+
+/* Dark mode support */
+.ios body.dark .login-card,
+.md body.dark .login-card {
+  --background: #1e1e1e;
+}
+
+.ios body.dark .login-item,
+.md body.dark .login-item {
+  --background: #2a2a2a;
+}

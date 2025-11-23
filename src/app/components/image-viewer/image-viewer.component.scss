@@ -1,0 +1,256 @@
+/* Image Viewer Component Styles */
+
+.image-viewer-content {
+  --background: #000;
+  --color: white;
+}
+
+.viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  
+  .close-btn,
+  .share-btn {
+    --color: white;
+    --background: rgba(255, 255, 255, 0.1);
+    --border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    backdrop-filter: blur(10px);
+  }
+  
+  .image-info {
+    flex: 1;
+    text-align: center;
+    margin: 0 1rem;
+    
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: white;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    }
+  }
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  
+  .main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+    cursor: grab;
+    
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  
+  .zoom-controls {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    padding: 0.75rem 1rem;
+    border-radius: 25px;
+    
+    ion-button {
+      --color: white;
+      --background: rgba(255, 255, 255, 0.1);
+      --border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 0;
+      
+      &:hover {
+        --background: rgba(255, 255, 255, 0.2);
+      }
+    }
+    
+    .zoom-level {
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      min-width: 50px;
+      text-align: center;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+  }
+}
+
+.image-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 100%);
+  padding: 2rem 1rem 1rem;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  
+  &.show {
+    transform: translateY(0);
+  }
+  
+  ion-card {
+    --background: rgba(255, 255, 255, 0.1);
+    --color: white;
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    margin: 0;
+    
+    .detail-item {
+      margin-bottom: 1rem;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+      
+      strong {
+        display: block;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 0.25rem;
+      }
+      
+      p {
+        margin: 0;
+        font-size: 1rem;
+        line-height: 1.4;
+      }
+    }
+  }
+}
+
+/* FAB customization */
+ion-fab {
+  ion-fab-button {
+    --background: rgba(0, 0, 0, 0.8);
+    --color: white;
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    
+    &:hover {
+      --background: rgba(0, 0, 0, 0.9);
+    }
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .viewer-header {
+    padding: 0.75rem;
+    
+    .image-info h3 {
+      font-size: 1rem;
+    }
+  }
+  
+  .zoom-controls {
+    bottom: 1rem;
+    padding: 0.5rem 0.75rem;
+    
+    ion-button {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .zoom-level {
+      font-size: 0.8rem;
+      min-width: 45px;
+    }
+  }
+}
+
+@media (max-height: 600px) {
+  .zoom-controls {
+    bottom: 1rem;
+  }
+  
+  .image-details {
+    padding: 1rem;
+  }
+}
+
+/* Touch gestures hint */
+.image-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: tapHint 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes tapHint {
+  0%, 90%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  45% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+/* Loading state */
+.main-image {
+  opacity: 0;
+  animation: fadeInImage 0.5s ease-out forwards;
+}
+
+@keyframes fadeInImage {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Dark mode adjustments */
+.ios body.dark,
+.md body.dark {
+  .image-details ion-card {
+    --background: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* Hide scrollbars */
+.image-viewer-content {
+  overflow: hidden;
+}
+
+/* Prevent text selection */
+.image-viewer-content * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

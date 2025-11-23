@@ -1,0 +1,157 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button default-href="/tabs/feed"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Dispositivos & APIs</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="container">
+    
+    <!-- SECCIÓN CÁMARA -->
+    <ion-card class="card-device">
+      <ion-card-header>
+        <ion-icon name="camera" class="card-icon"></ion-icon>
+        <ion-card-title>📸 Cámara</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Captura fotos con la cámara de tu dispositivo</p>
+        
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="takePicture()" [disabled]="isLoadingPhoto">
+                <ion-icon name="camera" slot="start"></ion-icon>
+                {{ isLoadingPhoto ? 'Capturando...' : 'Tomar Foto' }}
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="pickFromGallery()" [disabled]="isLoadingPhoto" color="secondary">
+                <ion-icon name="images" slot="start"></ion-icon>
+                {{ isLoadingPhoto ? 'Cargando...' : 'Galería' }}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div *ngIf="capturedPhoto" class="photo-preview">
+          <img [src]="capturedPhoto" alt="Foto capturada">
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SECCIÓN UBICACIÓN (GPS) -->
+    <ion-card class="card-device">
+      <ion-card-header>
+        <ion-icon name="location" class="card-icon"></ion-icon>
+        <ion-card-title>📍 Ubicación (GPS)</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Obtén tu ubicación actual del dispositivo</p>
+        
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="getCurrentLocation()" [disabled]="isLoadingLocation">
+                <ion-icon name="location" slot="start"></ion-icon>
+                {{ isLoadingLocation ? 'Obteniendo...' : 'Mi Ubicación' }}
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="startWatchingLocation()" color="secondary">
+                <ion-icon name="pulse" slot="start"></ion-icon>
+                Monitorear
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div *ngIf="locationData" class="data-display">
+          <div class="data-item">
+            <strong>Latitud:</strong> {{ locationData.latitude | number:'1.6-6' }}
+          </div>
+          <div class="data-item">
+            <strong>Longitud:</strong> {{ locationData.longitude | number:'1.6-6' }}
+          </div>
+          <div class="data-item">
+            <strong>Precisión:</strong> {{ locationData.accuracy | number:'1.0-0' }} metros
+          </div>
+          <div class="data-item">
+            <strong>Timestamp:</strong> {{ locationData.timestamp }}
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SECCIÓN SENSORES (ACELERÓMETRO) -->
+    <ion-card class="card-device">
+      <ion-card-header>
+        <ion-icon name="pulse" class="card-icon"></ion-icon>
+        <ion-card-title>🌪️ Sensores (Acelerómetro)</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Monitorea el movimiento de tu dispositivo</p>
+        
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" (click)="startMonitoringMotion()" [disabled]="isLoadingMotion" color="success">
+                <ion-icon name="pulse" slot="start"></ion-icon>
+                Iniciar Monitoreo
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button expand="block" (click)="stopMonitoringMotion()" color="danger">
+                <ion-icon name="stop" slot="start"></ion-icon>
+                Detener
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div *ngIf="motionData" class="data-display">
+          <div class="data-item motion-item">
+            <strong>Eje X:</strong> <span class="value">{{ motionData.x | number:'1.2-2' }}</span>
+          </div>
+          <div class="data-item motion-item">
+            <strong>Eje Y:</strong> <span class="value">{{ motionData.y | number:'1.2-2' }}</span>
+          </div>
+          <div class="data-item motion-item">
+            <strong>Eje Z:</strong> <span class="value">{{ motionData.z | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="isLoadingMotion" class="monitor-indicator">
+          <ion-spinner name="crescent"></ion-spinner>
+          <span>Monitoreando movimiento...</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- SECCIÓN APIs EXTERNAS -->
+    <ion-card class="card-device">
+      <ion-card-header>
+        <ion-icon name="cloud-download" class="card-icon"></ion-icon>
+        <ion-card-title>☁️ APIs Externas</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Integración con servicios web públicos</p>
+        
+        <ion-button expand="block" (click)="getMemes()" [disabled]="isLoadingMemes">
+          <ion-icon name="cloud-download" slot="start"></ion-icon>
+          {{ isLoadingMemes ? 'Cargando...' : 'Obtener Memes' }}
+        </ion-button>
+
+        <div *ngIf="memeData" class="memes-grid">
+          <div class="meme-item" *ngFor="let meme of (memeData?.data?.memes || []) | slice:0:6">
+            <img [src]="meme?.url" [alt]="meme?.name">
+            <p>{{ meme?.name }}</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
+</ion-content>

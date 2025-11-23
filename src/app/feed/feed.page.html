@@ -1,0 +1,365 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="header-content">
+        <span class="app-title">
+          <ion-icon name="happy" style="margin-right: 8px; color: #f39c12; font-size: 1.2em;"></ion-icon>
+          MemeShare
+        </span>
+        <ion-badge color="primary" *ngIf="unreadNotifications > 0">
+          {{unreadNotifications}}
+        </ion-badge>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" href="/dispositivos" routerLink="/dispositivos" title="Periféricos y APIs">
+        <ion-icon name="hardware-chip" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="showNotifications()">
+        <ion-icon name="notifications-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" (click)="showSearch()">
+        <ion-icon name="search-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refreshFeed($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Welcome Banner -->
+  <ion-card class="welcome-banner">
+    <ion-card-content>
+      <div class="welcome-content">
+        <ion-icon name="happy" style="font-size: 2rem; color: #f39c12; margin-bottom: 8px;"></ion-icon>
+        <h2>¡Bienvenido a MemeShare! 🎉</h2>
+        <p>La red social donde puedes subir y disfrutar los mejores memes. ¡Comparte tu humor y haz reír a todos!</p>
+        <ion-button fill="outline" size="small" (click)="openCreatePost()">
+          <ion-icon name="camera" slot="start"></ion-icon>
+          Subir mi primer meme
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Categories Navigation Menu - Tab Style -->
+  <div class="categories-tab-bar">
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'all'"
+      [style.--tab-color]="'#6366f1'"
+      href="/todos-los-memes"
+      (click)="selectCategoryTab('all')"
+    >
+      <ion-icon name="apps-outline"></ion-icon>
+      <span class="tab-label">TodosLosMemes</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'friki'"
+      [style.--tab-color]="'#8b5cf6'"
+      href="/noche-friki"
+      (click)="selectCategoryTab('friki')"
+    >
+      <ion-icon name="moon-outline"></ion-icon>
+      <span class="tab-label">NocheFriki</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'humor-negro'"
+      [style.--tab-color]="'#374151'"
+      href="/humor-negro"
+      (click)="selectCategoryTab('humor-negro')"
+    >
+      <ion-icon name="skull-outline"></ion-icon>
+      <span class="tab-label">HumorNegro</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'clasicos'"
+      [style.--tab-color]="'#f59e0b'"
+      href="/memes-clasicos"
+      (click)="selectCategoryTab('clasicos')"
+    >
+      <ion-icon name="star-outline"></ion-icon>
+      <span class="tab-label">MemesClasicos</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'programacion'"
+      [style.--tab-color]="'#10b981'"
+      href="/codigo-memes"
+      (click)="selectCategoryTab('programacion')"
+    >
+      <ion-icon name="code-outline"></ion-icon>
+      <span class="tab-label">CodigoMemes</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'gaming'"
+      [style.--tab-color]="'#ef4444'"
+      href="/gamers-unite"
+      (click)="selectCategoryTab('gaming')"
+    >
+      <ion-icon name="game-controller-outline"></ion-icon>
+      <span class="tab-label">GamersUnite</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'random'"
+      [style.--tab-color]="'#ec4899'"
+      href="/mierda-aleatoria"
+      (click)="selectCategoryTab('random')"
+    >
+      <ion-icon name="shuffle-outline"></ion-icon>
+      <span class="tab-label">MierdaAleatoria</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'dank'"
+      [style.--tab-color]="'#ff6b35'"
+      href="/memes-dank"
+      (click)="selectCategoryTab('dank')"
+    >
+      <ion-icon name="flame-outline"></ion-icon>
+      <span class="tab-label">MemesDank</span>
+    </a>
+
+    <a 
+      class="category-tab"
+      [class.active]="selectedCategory === 'cursed'"
+      [style.--tab-color]="'#9333ea'"
+      href="/malditos-wtf"
+      (click)="selectCategoryTab('cursed')"
+    >
+      <ion-icon name="eye-outline"></ion-icon>
+      <span class="tab-label">MalditosWTF</span>
+    </a>
+  </div>
+
+  <!-- Story/Status Bar -->
+  <div class="stories-container">
+    <div class="story-item add-story" (click)="createStory()">
+      <div class="story-avatar add-avatar">
+        <ion-icon name="add"></ion-icon>
+      </div>
+      <span>Tu historia</span>
+    </div>
+    
+    <div class="story-item" *ngFor="let story of stories">
+      <div class="story-avatar">
+        <img [src]="story.userAvatar" [alt]="story.userName" />
+        <div class="story-indicator" [class.viewed]="story.viewed"></div>
+      </div>
+      <span>{{story.userName}}</span>
+    </div>
+  </div>
+
+  <!-- Create Post Section -->
+  <ion-card class="create-post-card">
+    <ion-card-content>
+      <div class="create-post-header">
+        <ion-avatar class="user-avatar">
+          <img [src]="currentUser.avatar" [alt]="currentUser.name" />
+        </ion-avatar>
+        <ion-input
+          placeholder="¡Comparte un meme divertido! 😂"
+          readonly
+          class="post-input"
+          (click)="openCreatePost()"
+        ></ion-input>
+      </div>
+      
+      <div class="create-post-actions">
+        <ion-button fill="clear" (click)="openCreatePost('meme')">
+          <ion-icon name="happy" slot="start" color="warning"></ion-icon>
+          Meme
+        </ion-button>
+        <ion-button fill="clear" (click)="openCreatePost('task')">
+          <ion-icon name="checkbox" slot="start" color="success"></ion-icon>
+          Tarea
+        </ion-button>
+        <ion-button fill="clear" (click)="openCreatePost('photo')">
+          <ion-icon name="camera" slot="start" color="primary"></ion-icon>
+          Foto
+        </ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Feed Posts -->
+  <div class="feed-container">
+    <ion-card *ngFor="let post of filteredPosts; let i = index" class="post-card">
+      <!-- Post Header -->
+      <div class="post-header">
+        <ion-avatar class="post-avatar">
+          <img [src]="post.userAvatar" [alt]="post.userName" />
+        </ion-avatar>
+        <div class="post-info">
+          <h3>{{post.userName}}</h3>
+          <p class="post-time">
+            <ion-icon name="time-outline" size="small"></ion-icon>
+            {{post.createdAt | date:'short'}}
+          </p>
+          <div class="post-category" *ngIf="post.category">
+            <ion-chip 
+              [style.--chip-color]="getCategoryColor(post.category)"
+              class="category-chip-small"
+            >
+              <ion-icon [name]="getCategoryIcon(post.category)"></ion-icon>
+              <ion-label>{{getCategoryName(post.category)}}</ion-label>
+            </ion-chip>
+          </div>
+        </div>
+        <div class="post-type-badge">
+          <ion-badge [color]="getPostTypeColor(post.type)">
+            {{getPostTypeLabel(post.type)}}
+          </ion-badge>
+        </div>
+        <ion-button fill="clear" (click)="showPostOptions(post, i)">
+          <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <!-- Post Content -->
+      <div class="post-content">
+        <p *ngIf="post.text">{{post.text}}</p>
+        
+        <!-- Meme Content -->
+        <div *ngIf="post.type === 'meme' && post.memeUrl" class="meme-content">
+          <img [src]="post.memeUrl" [alt]="post.text" (click)="viewFullImage(post.memeUrl, 'Meme', post.text)" />
+        </div>
+        
+        <!-- Task Content -->
+        <div *ngIf="post.type === 'task'" class="task-content">
+          <div class="task-item">
+            <ion-checkbox 
+              [checked]="post.taskCompleted" 
+              (ionChange)="toggleTaskInPost(post, i)"
+            ></ion-checkbox>
+            <div class="task-details">
+              <h4>{{post.taskTitle}}</h4>
+              <p *ngIf="post.taskDescription">{{post.taskDescription}}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Photo Content -->
+        <div *ngIf="post.type === 'photo' && post.photoUrl" class="photo-content">
+          <img [src]="post.photoUrl" [alt]="post.text" (click)="viewFullImage(post.photoUrl, 'Foto', post.text)" />
+        </div>
+      </div>
+
+      <!-- Post Actions -->
+      <div class="post-actions">
+        <div class="action-stats">
+          <span *ngIf="post.likes > 0">
+            <ion-icon name="heart" color="danger"></ion-icon>
+            {{post.likes}}
+          </span>
+          <span *ngIf="post.comments > 0">
+            {{post.comments}} comentarios
+          </span>
+        </div>
+        
+        <div class="action-buttons">
+          <ion-button 
+            fill="clear" 
+            (click)="toggleLike(post, i)"
+            [color]="post.liked ? 'danger' : 'medium'"
+          >
+            <ion-icon 
+              [name]="post.liked ? 'heart' : 'heart-outline'" 
+              slot="start"
+            ></ion-icon>
+            Me gusta
+          </ion-button>
+          
+          <ion-button fill="clear" (click)="showComments(post, i)">
+            <ion-icon name="chatbubble-outline" slot="start"></ion-icon>
+            Comentar
+          </ion-button>
+          
+          <ion-button fill="clear" (click)="sharePost(post)">
+            <ion-icon name="share-outline" slot="start"></ion-icon>
+            Compartir
+          </ion-button>
+        </div>
+      </div>
+
+      <!-- Comments Preview -->
+      <div *ngIf="post.recentComments && post.recentComments.length > 0" class="comments-preview">
+        <div *ngFor="let comment of post.recentComments" class="comment-item">
+          <ion-avatar class="comment-avatar">
+            <img [src]="comment.userAvatar" [alt]="comment.userName" />
+          </ion-avatar>
+          <div class="comment-content">
+            <div class="comment-bubble">
+              <strong>{{comment.userName}}</strong>
+              <span>{{comment.text}}</span>
+            </div>
+            <div class="comment-actions">
+              <span class="comment-time">{{comment.createdAt | date:'short'}}</span>
+              <button (click)="likeComment(comment)">Me gusta</button>
+              <button (click)="replyComment(comment)">Responder</button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Add Comment -->
+        <div class="add-comment">
+          <ion-avatar class="comment-avatar">
+            <img [src]="currentUser.avatar" [alt]="currentUser.name" />
+          </ion-avatar>
+          <ion-input
+            placeholder="Escribe un comentario..."
+            [(ngModel)]="newComment"
+            (keydown.enter)="addComment(post, i)"
+            class="comment-input"
+          ></ion-input>
+          <ion-button 
+            fill="clear" 
+            (click)="addComment(post, i)"
+            [disabled]="!newComment.trim()"
+          >
+            <ion-icon name="send" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
+      </div>
+    </ion-card>
+  </div>
+
+  <!-- Loading indicator -->
+  <div *ngIf="loading" class="loading-container">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Cargando feed...</p>
+  </div>
+
+  <!-- Empty state -->
+  <div *ngIf="feedPosts.length === 0 && !loading" class="empty-feed">
+    <ion-icon name="newspaper-outline" size="large"></ion-icon>
+    <h2>¡Bienvenido a tu feed!</h2>
+    <p>Comienza compartiendo tu primera publicación o agrega algunos amigos.</p>
+    <ion-button expand="block" (click)="openCreatePost()">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Crear primera publicación
+    </ion-button>
+  </div>
+
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="upload-fab" (click)="openCreatePost()">
+      <ion-icon name="camera"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

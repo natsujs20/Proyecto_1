@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="warning">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      <div class="category-header">
+        <ion-icon name="star" style="margin-right: 8px; color: #f59e0b;"></ion-icon>
+        #MemesClásicos
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="category-banner">
+    <div class="banner-content">
+      <ion-icon name="star" class="category-icon"></ion-icon>
+      <h1>Memes Clásicos</h1>
+      <p>Los memes que marcaron época y nunca pasan de moda ⭐</p>
+      <div class="stats">
+        <span>{{posts.length}} posts</span> • <span>3.5k miembros</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="posts-container">
+    <ion-card *ngFor="let post of posts" class="post-card">
+      <div class="post-header">
+        <ion-avatar><img [src]="post.userAvatar" [alt]="post.userName"></ion-avatar>
+        <div class="user-info">
+          <h3>{{post.userName}}</h3>
+          <p>{{post.createdAt | date:'short'}}</p>
+        </div>
+        <ion-chip color="warning"><ion-icon name="star"></ion-icon><ion-label>Clásicos</ion-label></ion-chip>
+      </div>
+      <div class="post-content">
+        <p>{{post.text}}</p>
+        <img [src]="post.memeUrl" [alt]="post.text">
+      </div>
+      <div class="post-actions">
+        <ion-button fill="clear" [color]="post.liked ? 'danger' : 'medium'" (click)="toggleLike(post)">
+          <ion-icon [name]="post.liked ? 'heart' : 'heart-outline'" slot="start"></ion-icon>{{post.likes}}
+        </ion-button>
+        <ion-button fill="clear" color="medium">
+          <ion-icon name="chatbubble-outline" slot="start"></ion-icon>{{post.comments}}
+        </ion-button>
+        <ion-button fill="clear" color="medium">
+          <ion-icon name="share-outline" slot="start"></ion-icon>Compartir
+        </ion-button>
+      </div>
+    </ion-card>
+  </div>
+</ion-content>

@@ -1,0 +1,223 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import '@ionic/angular/css/palettes/dark.system.css';
+
+/* 
+ * Mobile App Global Styles
+ * -----------------------------------------------------
+ * Custom styles for better mobile experience
+ */
+
+/* Improve touch targets for better mobile UX */
+ion-button {
+  min-height: 44px; /* Minimum touch target size */
+  font-weight: 500;
+}
+
+/* Better spacing for mobile */
+ion-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+/* Enhanced card styling */
+ion-card {
+  margin: 0.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+/* Improved list styling */
+ion-list {
+  background: transparent;
+}
+
+/* Better input styling */
+ion-input, ion-textarea {
+  --border-radius: 12px;
+  --padding-start: 1rem;
+  --padding-end: 1rem;
+}
+
+/* Mobile-friendly modals */
+ion-modal {
+  --border-radius: 16px 16px 0 0;
+}
+
+/* Safe area adjustments */
+html {
+  /* Ensures content doesn't go behind status bar */
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Smooth scrolling for better UX */
+* {
+  -webkit-scroll-behavior: smooth;
+  scroll-behavior: smooth;
+}
+
+/* Remove blue highlight on tap for iOS */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Better focus states for accessibility */
+ion-button:focus,
+ion-item:focus {
+  outline: 2px solid var(--ion-color-primary);
+  outline-offset: 2px;
+}
+
+/* Custom CSS Variables for consistent theming */
+:root {
+  /* Enhanced colors for mobile */
+  --app-primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --app-secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --app-success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  
+  /* Spacing */
+  --app-spacing-xs: 0.25rem;
+  --app-spacing-sm: 0.5rem;
+  --app-spacing-md: 1rem;
+  --app-spacing-lg: 1.5rem;
+  --app-spacing-xl: 2rem;
+  
+  /* Border radius */
+  --app-border-radius-sm: 8px;
+  --app-border-radius-md: 12px;
+  --app-border-radius-lg: 16px;
+  --app-border-radius-xl: 20px;
+  
+  /* Shadows */
+  --app-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+  --app-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --app-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation classes for better UX */
+.fade-in {
+  animation: fadeIn 0.3s ease-in;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+.bounce-in {
+  animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modal Styles */
+.upload-modal {
+  --background: transparent;
+  --backdrop-opacity: 0.8;
+  
+  ion-content {
+    --background: var(--ion-color-light);
+  }
+}
+
+.image-viewer-modal {
+  --background: rgba(0, 0, 0, 0.95);
+  --backdrop-opacity: 0.95;
+  
+  ion-content {
+    --background: transparent;
+  }
+}
+
+/* Enhanced Toast styles */
+.custom-toast {
+  --background: var(--ion-color-primary);
+  --color: white;
+  --border-radius: 12px;
+}
+
+.success-toast {
+  --background: var(--ion-color-success);
+  --color: white;
+  --border-radius: 12px;
+}
+
+.error-toast {
+  --background: var(--ion-color-danger);
+  --color: white;
+  --border-radius: 12px;
+}
+
+.info-toast {
+  --background: var(--ion-color-tertiary);
+  --color: white;
+  --border-radius: 12px;
+}

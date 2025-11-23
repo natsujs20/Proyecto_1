@@ -1,0 +1,80 @@
+<ion-content class="image-viewer-content">
+  <!-- Header con controles -->
+  <div class="viewer-header">
+    <ion-button fill="clear" (click)="dismiss()" class="close-btn">
+      <ion-icon name="close" slot="icon-only"></ion-icon>
+    </ion-button>
+    
+    <div class="image-info">
+      <h3>{{title || 'Imagen'}}</h3>
+    </div>
+    
+    <ion-button fill="clear" (click)="shareImage()" class="share-btn">
+      <ion-icon name="share-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Imagen principal con zoom -->
+  <div class="image-container" #imageContainer>
+    <img 
+      [src]="imageUrl" 
+      [alt]="title"
+      class="main-image"
+      (load)="onImageLoad()"
+      #mainImage
+    />
+    
+    <!-- Controles de zoom -->
+    <div class="zoom-controls">
+      <ion-button fill="clear" (click)="zoomOut()">
+        <ion-icon name="remove" slot="icon-only"></ion-icon>
+      </ion-button>
+      
+      <span class="zoom-level">{{Math.round(zoomLevel * 100)}}%</span>
+      
+      <ion-button fill="clear" (click)="zoomIn()">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+      
+      <ion-button fill="clear" (click)="resetZoom()">
+        <ion-icon name="refresh" slot="icon-only"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Información adicional -->
+  <div class="image-details" *ngIf="showDetails">
+    <ion-card>
+      <ion-card-content>
+        <div class="detail-item">
+          <strong>Descripción:</strong>
+          <p>{{description || 'Sin descripción'}}</p>
+        </div>
+        
+        <div class="detail-item" *ngIf="userName">
+          <strong>Publicado por:</strong>
+          <p>{{userName}}</p>
+        </div>
+        
+        <div class="detail-item" *ngIf="createdAt">
+          <strong>Fecha:</strong>
+          <p>{{createdAt | date:'medium'}}</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Botón para mostrar/ocultar detalles -->
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+    <ion-fab-button size="small" (click)="toggleDetails()">
+      <ion-icon [name]="showDetails ? 'information' : 'information-outline'"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <!-- Botón de descarga -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" (click)="downloadImage()">
+      <ion-icon name="download-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

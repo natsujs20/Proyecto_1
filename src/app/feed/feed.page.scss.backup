@@ -1,0 +1,209 @@
+/* Feed Page Styles - Social Media Look */
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  .app-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(45deg, var(--ion-color-primary), var(--ion-color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Welcome Banner */
+.welcome-banner {
+  margin: 1rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+
+  .welcome-content {
+    text-align: center;
+    padding: 1rem;
+
+    h2 {
+      margin: 0.5rem 0;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    p {
+      margin: 1rem 0;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+
+    ion-button {
+      --color: white;
+      --border-color: white;
+      margin-top: 0.5rem;
+      
+      &:hover {
+        --background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+/* Stories Section */
+.stories-container {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  overflow-x: auto;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+  
+  .story-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+    cursor: pointer;
+    
+    .story-avatar {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin-bottom: 0.25rem;
+      border: 3px solid transparent;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+    
+    span {
+      font-size: 0.75rem;
+      text-align: center;
+      max-width: 70px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+/* Post Styles */
+.post-card {
+  margin: 1rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  
+  .post-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    gap: 0.75rem;
+    
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      
+      img {
+        border-radius: 50%;
+      }
+    }
+    
+    .post-user-info {
+      flex: 1;
+      
+      .username {
+        font-weight: 600;
+        margin-bottom: 2px;
+      }
+      
+      .post-time {
+        font-size: 0.8rem;
+        color: #666;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+    }
+  }
+  
+  .post-content {
+    padding: 0 1rem 1rem;
+    
+    .post-text {
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    
+    img {
+      width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.2s;
+      
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+  
+  .post-actions {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #f0f0f0;
+    
+    .action-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.75rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    
+    .action-buttons {
+      display: flex;
+      justify-content: space-around;
+      
+      ion-button {
+        --color: #666;
+        flex: 1;
+        margin: 0;
+        
+        &.liked {
+          --color: #e74c3c;
+        }
+        
+        ion-icon {
+          margin-right: 0.5rem;
+        }
+      }
+    }
+  }
+}
+
+/* Floating Action Button */
+.upload-fab {
+  --background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --color: white;
+  --box-shadow: 0 8px 20px rgba(240, 147, 251, 0.4);
+  --border-radius: 16px;
+  
+  &:hover {
+    --box-shadow: 0 12px 24px rgba(240, 147, 251, 0.6);
+    transform: scale(1.05);
+  }
+  
+  ion-icon {
+    font-size: 1.5rem;
+  }
+}
